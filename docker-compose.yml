@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:${MYSQL_VERSION:-latest}
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+      MYSQL_DATABASE: "${DB_NAME}"
+      MYSQL_USER: "${DB_USERNAME}"
+      MYSQL_PASSWORD: "${DB_PASSWORD}"
+    container_name: local_mysql
+
+  apache:
+    build:
+      context: './.config/apache/'
+      args:
+        APACHE_VERSION: ${APACHE_VERSION}
+    depends_on:
+      - php
+      - mysql
+    networks:
+      - frontend
+      - backend
+    ports:
+      - "8000:80"
+    volumes:
+      - ${PROJECT_ROOT}/:/var/www/html/
+    container_name: local_apache
+  php:
+    build:
+      context: './.config/php/'
+      args:
+        PHP_VERSION: ${PHP_VERSION}
+    networks:
+      - backend
+    volumes:
+      - ${PROJECT_ROOT}/:/var/www/html/
+    container_name: local_php
+
+networks:
+  frontend:
+  backend:
