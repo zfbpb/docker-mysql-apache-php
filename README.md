@@ -54,4 +54,4 @@ Before using this configuration, ensure that you have the following prerequisite
 - Two Docker networks, `frontend` and `backend`, are defined to isolate the services based on their roles.
 
 ## License
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). See the [LICENSE](licence.txt) file for details.
