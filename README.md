@@ -35,7 +35,7 @@ Before using this configuration, ensure that you have the following prerequisite
 5. Database Access:
    - You can access the MySQL database using the following credentials:
      - Host: `localhost`
-     - Port: `3306`
+     - Port: `${DB_PORT}`
      - Username: `${DB_USERNAME}`
      - Password: `${DB_PASSWORD}`
      - Database: `${DB_NAME}`
@@ -48,7 +48,7 @@ Before using this configuration, ensure that you have the following prerequisite
 
 ## Additional Information
 - The `docker-compose.yml` file defines three services: `mysql`, `apache`, and `php`, which together provide a local development environment.
-- The MySQL service uses the specified version (or the latest version if not specified), creates a database, and sets the root password and other user credentials.
+- The MySQL service uses the specified version (or the latest version if not specified), creates a database, and sets the root password and other user credentials. You can customize the port at which MySQL is accessible within the Docker container by using the `${DB_PORT}` variable. This enables dynamic port assignment based on your requirements and prevents conflicts with other services that may be using the same port. To check the availability of the port you have chosen for the MySQL service, you can use the `netstat -ano | findstr :${DB_PORT}` command. If this command returns results, it indicates that the selected port is already in use by another process.
 - The Apache service is built using a specified version of the Apache image and depends on both the MySQL and PHP services. It serves web content from the `/var/www/html` directory, which can be customized by updating `${PROJECT_ROOT}`.
 - The PHP service is also built using a specified version of the PHP image and shares the same `${PROJECT_ROOT}` volume with the Apache service.
 - Two Docker networks, `frontend` and `backend`, are defined to isolate the services based on their roles.
