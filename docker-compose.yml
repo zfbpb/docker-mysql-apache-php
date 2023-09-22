@@ -6,7 +6,7 @@ services:
     volumes:
       - ./mysql:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     restart: always
     networks:
       - backend
